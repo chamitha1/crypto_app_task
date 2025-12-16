@@ -18,19 +18,12 @@ class OnboardingPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            height: 300,
-            width: 300,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.deepPurple[100],
-            ),
-            child: Center(
-              child: Icon(
-                Icons.currency_bitcoin,
-                size: 120,
-                color: Colors.deepPurple[400],
-              ),
+          ClipOval(
+            child: Image.asset(
+              image,
+              height: 300,
+              width: 300,
+              fit: BoxFit.cover,
             ),
           ),
           const SizedBox(height: 48),

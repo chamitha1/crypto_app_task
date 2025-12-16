@@ -41,19 +41,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 },
                 children: const [
                   OnboardingPage(
-                    image: 'lib\assets\rocket.jpg',
+                    image: 'assets/images/rocket.png',
                     title: "Start Your Crypto Journey",
                     description:
                         "Begin exploring digital assets confidently with guided tools designed to help beginners learn, invest and grow safely.",
                   ),
                   OnboardingPage(
-                    image: 'lib\assets\rocket.jpg',
+                    image: 'assets/images/currency-exchange.png',
                     title: "Safe and Smart Transactions",
                     description:
                         "Experience fast, secure transactions supported by advanced encryption and monitioring to keep your crypto assets fully protected.",
                   ),
                   OnboardingPage(
-                    image: 'lib\assets\rocket.jpg',
+                    image: 'assets/images/cryptocurrency.png',
                     title:
                         "Simplify Your Crypto Journey \n Manage Everything in One Place",
                     description:
@@ -86,9 +86,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_currentPage == 2) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Get Started! Going to Login...'),
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
                           ),
                         );
                       } else {
