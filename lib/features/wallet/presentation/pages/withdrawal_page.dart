@@ -1,3 +1,4 @@
+import 'package:BitDo/features/wallet/presentation/pages/balance_history_page.dart';
 import 'package:BitDo/features/wallet/presentation/pages/transaction_history_page.dart';
 import 'package:flutter/material.dart';
 
@@ -590,10 +591,10 @@ class _WithdrawalPageState extends State<WithdrawalPage> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TransactionHistoryPage(),
+                  builder: (context) => const BalanceHistoryPage(),
                 ),
               );
             },

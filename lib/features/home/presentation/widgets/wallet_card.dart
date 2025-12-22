@@ -27,8 +27,7 @@ class _WalletCardState extends State<WalletCard> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         gradient: const LinearGradient(
-          begin: Alignment
-              .topCenter, 
+          begin: Alignment.topCenter,
 
           end: Alignment.bottomCenter,
           colors: [Color(0xff1D5DE5), Color(0xff174AB7)],
@@ -43,7 +42,6 @@ class _WalletCardState extends State<WalletCard> {
       ),
       child: Column(
         children: [
-          
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -60,28 +58,42 @@ class _WalletCardState extends State<WalletCard> {
             ],
           ),
           const SizedBox(height: 16),
-
-          RichText(
-            text: TextSpan(
-              text: "8,489,489.",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 28,
-                fontWeight: FontWeight.w600,
-                fontFamily: 'Inter',
-              ),
-              children: const <TextSpan>[
-                TextSpan(
-                  text: "32",
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RichText(
+                text: TextSpan(
+                  text: "8,489,489.",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w600,
                     fontFamily: 'Inter',
                   ),
+                  children: const <TextSpan>[
+                    TextSpan(
+                      text: "32",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(width: 10),
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: Color(0xff4A7DEA),
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Image.asset('assets/icons/home/eye_slash.png'),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
           Text(
@@ -197,7 +209,11 @@ class _WalletCardState extends State<WalletCard> {
     );
   }
 
-  Widget _walletActionButton(String text, String iconPath, {VoidCallback? onTap}) {
+  Widget _walletActionButton(
+    String text,
+    String iconPath, {
+    VoidCallback? onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(

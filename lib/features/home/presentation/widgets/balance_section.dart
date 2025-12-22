@@ -1,3 +1,4 @@
+import 'package:BitDo/features/wallet/presentation/pages/balance_history_page.dart';
 import 'package:BitDo/features/wallet/presentation/pages/transaction_history_page.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +63,7 @@ class _BalanceSectionState extends State<BalanceSection> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const TransactionHistoryPage(),
+                    builder: (context) => const BalanceHistoryPage(),
                   ),
                 );
               },
