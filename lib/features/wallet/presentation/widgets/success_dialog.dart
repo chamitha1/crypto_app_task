@@ -1,3 +1,4 @@
+import 'package:BitDo/features/wallet/presentation/pages/balance_history_page.dart';
 import 'package:BitDo/features/wallet/presentation/pages/transaction_history_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,9 +9,7 @@ class SuccessDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       backgroundColor: Colors.white,
       insetPadding: const EdgeInsets.symmetric(horizontal: 24),
       child: Padding(
@@ -24,7 +23,7 @@ class SuccessDialog extends StatelessWidget {
                 onTap: () => Navigator.pop(context),
                 child: const Icon(
                   Icons.close,
-                  color: Color(0xFF9EA3AE), // Grayish color for X
+                  color: Color(0xFF9EA3AE), 
                   size: 24,
                 ),
               ),
@@ -64,11 +63,11 @@ class SuccessDialog extends StatelessWidget {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context); // Close dialog
+                  Navigator.pop(context); 
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const TransactionHistoryPage(),
+                      builder: (context) => const BalanceHistoryPage(),
                     ),
                   );
                 },

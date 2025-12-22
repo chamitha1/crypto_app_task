@@ -119,6 +119,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                           builder: (context) => OtpBottomSheet(
                             email: _emailController!.text,
+                            otpLength: 4,
                             onVerified: () {
                               Navigator.pop(context);
                               setState(() {

@@ -71,6 +71,7 @@ class _WithdrawalPageState extends State<WithdrawalPage> {
       barrierColor: const Color(0xFF000000).withOpacity(0.4),
       builder: (context) => OtpBottomSheet(
         email: "j*n**ha@gmail.com", // Mock email
+        otpLength: 6,
         onVerified: () {
           Navigator.pop(context); // Close OTP Sheet
           showDialog(

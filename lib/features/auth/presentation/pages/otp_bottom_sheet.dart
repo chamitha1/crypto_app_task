@@ -10,7 +10,10 @@ class OtpBottomSheet extends StatefulWidget {
     super.key,
     required this.email,
     required this.onVerified,
+    this.otpLength = 4,
   });
+
+  final int otpLength;
 
   @override
   State<OtpBottomSheet> createState() => _OtpBottomSheetState();
@@ -52,7 +55,6 @@ class _OtpBottomSheetState extends State<OtpBottomSheet> {
     });
   }
 
-  // Helper to hide email characters ( t****s@gmail.com)
   String get _obfuscatedEmail {
     final parts = widget.email.split('@');
     if (parts.length != 2) return widget.email;
@@ -72,7 +74,7 @@ class _OtpBottomSheetState extends State<OtpBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
-      width: 45,
+      width: widget.otpLength == 6 ? 45 : 56,
       height: 56,
       textStyle: const TextStyle(
         fontSize: 22,
@@ -135,7 +137,7 @@ class _OtpBottomSheetState extends State<OtpBottomSheet> {
           const SizedBox(height: 32),
 
           Pinput(
-            length: 6,
+            length: widget.otpLength,
             controller: _pinController,
             defaultPinTheme: defaultPinTheme,
             focusedPinTheme: focusedPinTheme,

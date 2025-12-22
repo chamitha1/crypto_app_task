@@ -104,9 +104,7 @@ class _WalletCardState extends State<WalletCard> {
                     _isObscured
                         ? 'assets/icons/login/eye.png'
                         : 'assets/icons/home/eye_slash.png',
-                    color: Colors.white, // Ensure icon is visible against blue
-                    // Note: 'eye.png' from login folder usually might not be white, tint might be needed or verified.
-                    // The prompt said 'eye icon ... in assets folder'. I found it in login.
+                    color: Colors.white, 
                   ),
                 ),
               ),

@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 
 import 'features/onboarding/presentation/pages/onboarding_screen.dart';
 
-void main() {
+import 'package:flutter/services.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(const BitDo());
 }
 

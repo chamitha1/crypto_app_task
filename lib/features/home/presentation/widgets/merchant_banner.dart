@@ -1,3 +1,4 @@
+import 'package:BitDo/features/merchant/presentation/pages/become_merchant_page.dart';
 import 'package:flutter/material.dart';
 
 class MerchantBanner extends StatelessWidget {
@@ -22,16 +23,22 @@ class MerchantBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: const Color(0xff4A7DEA),
-              borderRadius: BorderRadius.circular(8),
+          GestureDetector(
+            onTap: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => BecomeMerchantPage()),
             ),
-            child: Image.asset(
-              'assets/icons/home/merchant.png',
-              width: 19,
-              height: 22,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: const Color(0xff4A7DEA),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Image.asset(
+                'assets/icons/home/merchant.png',
+                width: 19,
+                height: 22,
+              ),
             ),
           ),
           const SizedBox(width: 12),

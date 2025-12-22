@@ -64,6 +64,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
       builder: (context) => OtpBottomSheet(
         email: _emailController!.text.trim(),
+        otpLength: 4,
         onVerified: () {
           Navigator.pop(context);
           setState(() => _isEmailVerified = true);

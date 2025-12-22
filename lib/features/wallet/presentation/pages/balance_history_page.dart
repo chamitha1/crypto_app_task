@@ -239,7 +239,7 @@ class BalanceHistoryPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 40), // Spacer to balance
+              const SizedBox(width: 40), 
             ],
           ),
           const Text(
