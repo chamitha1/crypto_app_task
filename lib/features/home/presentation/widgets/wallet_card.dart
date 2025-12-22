@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../wallet/presentation/pages/deposit_screen.dart';
+import '../../../wallet/presentation/pages/withdrawal_page.dart';
 
 class WalletCard extends StatefulWidget {
   const WalletCard({super.key});
@@ -115,6 +116,14 @@ class _WalletCardState extends State<WalletCard> {
                 child: _walletActionButton(
                   "Withdraw",
                   "assets/icons/home/withdraw.png",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WithdrawalPage(),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],

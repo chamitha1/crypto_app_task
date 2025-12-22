@@ -72,6 +72,7 @@
       - assets/icons/verify_email/
       - assets/icons/home/
       - assets/icons/deposit/
+      - assets/icons/withdrawal/
       
 
     # An image asset can refer to one or more resolution-specific "variants", see
