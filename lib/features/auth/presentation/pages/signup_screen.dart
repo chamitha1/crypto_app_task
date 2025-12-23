@@ -1,3 +1,5 @@
+import 'package:BitDo/api/user_api.dart';
+import 'package:BitDo/config/api_client.dart';
 import 'package:BitDo/core/widgets/gradient_button.dart';
 import 'package:BitDo/features/auth/presentation/pages/login_screen.dart';
 import 'package:BitDo/features/auth/presentation/pages/otp_bottom_sheet.dart';
@@ -13,7 +15,7 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  TextEditingController? _emailController;
+  late TextEditingController _emailController;
 
   final _passController = TextEditingController();
   final _confirmPassController = TextEditingController();
@@ -39,10 +41,12 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   void initState() {
     super.initState();
+    _emailController = TextEditingController();
   }
 
   @override
   void dispose() {
+    _emailController.dispose();
     _passController.dispose();
     _confirmPassController.dispose();
     _inviteController.dispose();
@@ -50,7 +54,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _openOtpSheet() {
-    if (!_isEmailPopulated || _emailController == null) return;
+    if (!_isEmailPopulated) return;
 
     _autocompleteFocusNode?.unfocus();
     FocusScope.of(context).unfocus();
@@ -63,7 +67,7 @@ class _SignupScreenState extends State<SignupScreen> {
       barrierColor: const Color(0xFFECEFF5).withOpacity(0.7),
 
       builder: (context) => OtpBottomSheet(
-        email: _emailController!.text.trim(),
+        email: _emailController.text.trim(),
         otpLength: 4,
         onVerified: () {
           Navigator.pop(context);
@@ -244,16 +248,45 @@ class _SignupScreenState extends State<SignupScreen> {
               GradientButton(
                 text: "Sign Up",
                 onPressed: _isEmailVerified && _agreedToTerms
-                    ? () {
+                    ? () async {
                         setState(() {
                           if (_passController.text !=
                               _confirmPassController.text) {
                             _passwordErrorText = "Passwords do not match";
                           } else {
                             _passwordErrorText = null;
-                            // Sign up logic
                           }
                         });
+                        if (!_isEmailPopulated ||
+                            _emailController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please enter your email'),
+                            ),
+                          );
+                          return;
+                        }
+                        try {
+                          final token = await (
+                            email: _emailController.text,
+                            smsCode: '8888',
+                            loginPwd: _passController.text,
+                            inviteCode: _inviteController.text.isEmpty
+                                ? null
+                                : _inviteController.text,
+                          );
+                          print('Signup success! Token: $token');
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ), // Or HomeScreen
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Signup failed: $e')),
+                          );
+                        }
                       }
                     : () {},
               ),
@@ -350,8 +383,8 @@ class _SignupScreenState extends State<SignupScreen> {
         return matches.map((d) => '$local@$d');
       },
       onSelected: (String selection) {
-        _emailController?.text = selection;
-        _emailController?.selection = TextSelection.fromPosition(
+        _emailController.text = selection;
+        _emailController.selection = TextSelection.fromPosition(
           TextPosition(offset: selection.length),
         );
         setState(() {
@@ -363,8 +396,8 @@ class _SignupScreenState extends State<SignupScreen> {
           _emailController = controller;
           _autocompleteFocusNode = focusNode;
 
-          _emailController!.addListener(() {
-            final isPopulated = _emailController!.text.isNotEmpty;
+          _emailController.addListener(() {
+            final isPopulated = _emailController.text.isNotEmpty;
             if (_isEmailPopulated != isPopulated) {
               setState(() {
                 _isEmailPopulated = isPopulated;

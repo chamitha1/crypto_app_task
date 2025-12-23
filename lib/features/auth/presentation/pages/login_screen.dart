@@ -167,11 +167,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     try {
                       final response = await ApiClient.dio.post(
-                        '/user/login/sys', // Replace with actual login endpoint from docs
+                        '/cuser/public/login',
                         data: {
                           'loginName': _emailController?.text,
                           'loginPwd': _passwordController.text,
                         },
+                      );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
                       );
                       print('Login success: ${response.data}');
                     } catch (e) {
