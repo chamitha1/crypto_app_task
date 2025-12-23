@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:BitDo/constants/sms_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -10,7 +11,7 @@ class OtpBottomSheet extends StatefulWidget {
     super.key,
     required this.email,
     required this.onVerified,
-    this.otpLength = 4,
+    this.otpLength = 4, required SmsBizType bizType,
   });
 
   final int otpLength;

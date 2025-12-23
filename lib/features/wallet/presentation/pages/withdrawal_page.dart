@@ -1,3 +1,4 @@
+import 'package:BitDo/constants/sms_constants.dart';
 import 'package:BitDo/features/auth/presentation/pages/otp_bottom_sheet.dart';
 import 'package:BitDo/features/wallet/presentation/pages/balance_history_page.dart';
 import 'package:BitDo/features/wallet/presentation/pages/transaction_history_page.dart';
@@ -70,10 +71,11 @@ class _WithdrawalPageState extends State<WithdrawalPage> {
       backgroundColor: Colors.transparent,
       barrierColor: const Color(0xFF000000).withOpacity(0.4),
       builder: (context) => OtpBottomSheet(
-        email: "j*n**ha@gmail.com", // Mock email
+        email: "j*n**ha@gmail.com", 
         otpLength: 6,
+        bizType: SmsBizType.withdraw,
         onVerified: () {
-          Navigator.pop(context); // Close OTP Sheet
+          Navigator.pop(context); 
           showDialog(
             context: context,
             barrierDismissible: false,

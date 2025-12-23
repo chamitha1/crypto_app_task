@@ -1,5 +1,6 @@
 import 'package:BitDo/api/user_api.dart';
 import 'package:BitDo/config/api_client.dart';
+import 'package:BitDo/constants/sms_constants.dart';
 import 'package:BitDo/core/widgets/gradient_button.dart';
 import 'package:BitDo/features/auth/presentation/pages/login_screen.dart';
 import 'package:BitDo/features/auth/presentation/pages/otp_bottom_sheet.dart';
@@ -57,28 +58,37 @@ class _SignupScreenState extends State<SignupScreen> {
   void _openOtpSheet() {
     if (!_isEmailPopulated) return;
 
-    _autocompleteFocusNode?.unfocus();
-    FocusScope.of(context).unfocus();
+    sendOtp(email: _emailController.text).then((success) {
+      print(success);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('OTP sent to your email!')));
+      _autocompleteFocusNode?.unfocus();
+      FocusScope.of(context).unfocus();
 
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
 
-      barrierColor: const Color(0xFFECEFF5).withOpacity(0.7),
+        barrierColor: const Color(0xFFECEFF5).withOpacity(0.7),
 
-      builder: (context) => OtpBottomSheet(
-        email: _emailController.text.trim(),
-        otpLength: 4,
-        onVerified: () {
-          Navigator.pop(context);
-          setState(() => _isEmailVerified = true);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Email Verified Successfully!")),
-          );
-        },
-      ),
-    );
+        builder: (context) => OtpBottomSheet(
+          email: _emailController.text.trim(),
+          otpLength: 4,
+          bizType: SmsBizType.register,
+          onVerified: () {
+            Navigator.pop(context);
+            setState(() => _isEmailVerified = true);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Email Verified Successfully!")),
+            );
+          },
+        ),
+      ).catchError((e) {
+        print(e);
+      });
+    });
   }
 
   @override

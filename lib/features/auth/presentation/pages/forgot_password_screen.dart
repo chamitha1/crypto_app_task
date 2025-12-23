@@ -1,3 +1,5 @@
+import 'package:BitDo/api/user_api.dart';
+import 'package:BitDo/constants/sms_constants.dart';
 import 'package:BitDo/core/widgets/gradient_button.dart';
 import 'package:BitDo/features/auth/presentation/pages/otp_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,8 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _passController = TextEditingController();
   final _confirmPassController = TextEditingController();
-  TextEditingController? _emailController;
+
+  late TextEditingController _emailController;
 
   FocusNode? _autocompleteFocusNode;
 
@@ -21,6 +24,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   bool _isEmailPopulated = false;
   bool _isEmailVerified = false;
   String? _passwordErrorText;
+  bool _isSendingOtp = false;
 
   static const List<String> _emailDomains = <String>[
     'gmail.com',
@@ -34,10 +38,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   void initState() {
     super.initState();
+    _emailController = TextEditingController();
   }
 
   @override
   void dispose() {
+    _emailController.dispose();
     _passController.dispose();
     _confirmPassController.dispose();
 
@@ -78,7 +84,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
               const SizedBox(height: 8),
               const Text(
-                "No worries—tell us your email and we’ll help you reset your password safely.",
+                "No worries—tell us your email and we'll help you reset your password safely.",
                 style: TextStyle(
                   fontSize: 16,
                   fontFamily: 'Inter',
@@ -103,36 +109,61 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     text: _isEmailVerified ? "Verified" : "Verify",
                     isEnabled: _isEmailPopulated,
                     isVerified: _isEmailVerified,
+
                     onPressed: () async {
-                      if (_isEmailPopulated && _emailController != null) {
+                      if (_isEmailPopulated) {
                         _autocompleteFocusNode?.unfocus();
                         FocusScope.of(context).unfocus();
 
-                        await showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
+                        setState(() => _isSendingOtp = true);
 
-                          barrierColor: const Color(
-                            0xFFECEFF5,
-                          ).withOpacity(0.7),
-
-                          builder: (context) => OtpBottomSheet(
-                            email: _emailController!.text,
-                            otpLength: 4,
-                            onVerified: () {
-                              Navigator.pop(context);
-                              setState(() {
-                                _isEmailVerified = true;
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Email Verified Successfully!"),
-                                ),
-                              );
-                            },
-                          ),
+                        final bool response = await sendOtp(
+                          email: _emailController.text.trim(),
+                          bizType: SmsBizType.forgetPwd,
                         );
+
+                        setState(() => _isSendingOtp = false);
+
+                        print('OTP sent response: $response');
+
+                        if (response == true) {
+                          await showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+
+                            barrierColor: const Color(
+                              0xFFECEFF5,
+                            ).withOpacity(0.7),
+
+                            builder: (context) => OtpBottomSheet(
+                              email: _emailController!.text,
+                              otpLength: 4,
+                              bizType: SmsBizType.forgetPwd,
+                              onVerified: () {
+                                Navigator.pop(context);
+                                setState(() {
+                                  _isEmailVerified = true;
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      "Email Verified Successfully!",
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Failed to send OTP. Please try again.',
+                              ),
+                            ),
+                          );
+                        }
                       }
                     },
                   ),
