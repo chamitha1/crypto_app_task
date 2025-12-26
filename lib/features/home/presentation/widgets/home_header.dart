@@ -21,13 +21,28 @@ class HomeHeader extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Obx(() => Text(
-              "Hi, ${controller.userName.value}",
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-                color: Color(0XFF332C3B),
-                fontFamily: 'Inter',
+            // Obx(() => Text(
+            //   "Hi, ${controller.userName.value}",
+            //   style: const TextStyle(
+            //     fontSize: 24,
+            //     fontWeight: FontWeight.w700,
+            //     color: Color(0XFF332C3B),
+            //     fontFamily: 'Inter',
+            //   ),
+            // )),
+            Obx(() => SizedBox(
+              // adjust width to fit your layout (you can change 180/200/etc.)
+              width: MediaQuery.of(context).size.width * 0.55,
+              child: Text(
+                "Hi, ${controller.userName.value}",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0XFF332C3B),
+                  fontFamily: 'Inter',
+                ),
               ),
             )),
             RichText(
