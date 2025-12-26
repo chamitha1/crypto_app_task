@@ -16,13 +16,16 @@ class StorageService {
   //set user token
   static Future<bool> saveToken(String token) async {
     if (_prefs == null) await init();
+    print("SAVING TOKEN : $token ");
     return await _prefs!.setString(userToken, token);
   }
 
   //get user token
   static Future<String?> getToken() async {
     if (_prefs == null) await init();
-    return _prefs!.getString(userToken);
+    final token = _prefs!.getString(userToken);
+    print("GETTING TOKEN : $token ");
+    return token;
   }
 
   static Future<void> removeToken() async {

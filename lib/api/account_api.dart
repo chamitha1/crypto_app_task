@@ -10,8 +10,28 @@ class AccountApi {
         '/account/balance_account',
         data: {'accountType': '4', 'assetCurrency': assetCurrency},
       );
-      print(res.data);
-      return AccountDetailAssetRes.fromJson(res.data as Map<String, dynamic>);
+      print("Get Balance Response ${res.data}");
+
+      final resData = res.data as Map<String, dynamic>;
+
+      if (resData['code'] == 200 || resData['code'] == '200') {
+        // Extract the nested 'data' object
+        final data = resData['data'] as Map<String, dynamic>;
+
+        // Parse the AccountDetailAssetRes from the 'data' object
+        final result = AccountDetailAssetRes.fromJson(data);
+
+        print('Parsed result - Total Amount: ${result.totalAmount}');
+        print('Parsed result - Total Asset: ${result.totalAsset}');
+        print(
+          'Parsed result - Account List length: ${result.accountList.length}',
+        );
+
+        return result;
+      } else {
+        throw Exception('API Error: ${resData['errorMsg']}');
+      }
+      // return AccountDetailAssetRes.fromJson(res.data as Map<String, dynamic>);
     } catch (e) {
       print("GetBalanceAccount erroe: $e");
       rethrow;

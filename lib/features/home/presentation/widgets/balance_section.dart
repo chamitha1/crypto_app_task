@@ -118,7 +118,7 @@ class _BalanceSectionState extends State<BalanceSection> {
                       TextButton(
                         onPressed: _fetchBalance,
                         child: const Text("Retry"),
-                      )
+                      ),
                     ],
                   ),
                 )
@@ -151,7 +151,7 @@ class _BalanceSectionState extends State<BalanceSection> {
               style: TextStyle(color: Color(0xff454F63)),
             ),
           ),
-        )
+        ),
       ];
     }
 
@@ -164,7 +164,7 @@ class _BalanceSectionState extends State<BalanceSection> {
             name: item.currency,
             total: item.usableAmount,
             frozen: item.frozenAmount,
-            usdtVal: item.totalAsset, 
+            usdtVal: item.totalAsset,
           ),
           if (index < list.length - 1)
             const Divider(height: 32, color: Color(0xFFF1F5F9)),
@@ -175,31 +175,31 @@ class _BalanceSectionState extends State<BalanceSection> {
 
   Widget _buildNetworkImage(String url) {
     if (url.isEmpty) {
-        return Container(
-            width: 24,
-            height: 24,
-            decoration: const BoxDecoration(
-                color: Color(0xFFF0F0F0),
-                shape: BoxShape.circle,
-            ),
-            child: const Icon(Icons.currency_bitcoin, size: 16, color: Colors.grey),
-        );
-    }
-    return Image.network(
-        url,
+      return Container(
         width: 24,
         height: 24,
-        errorBuilder: (context, error, stackTrace) {
-            return Container(
-                width: 24,
-                height: 24,
-                decoration: const BoxDecoration(
-                    color: Color(0xFFF0F0F0),
-                    shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.error_outline, size: 16, color: Colors.grey),
-            );
-        },
+        decoration: const BoxDecoration(
+          color: Color(0xFFF0F0F0),
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(Icons.currency_bitcoin, size: 16, color: Colors.grey),
+      );
+    }
+    return Image.network(
+      url,
+      width: 24,
+      height: 24,
+      errorBuilder: (context, error, stackTrace) {
+        return Container(
+          width: 24,
+          height: 24,
+          decoration: const BoxDecoration(
+            color: Color(0xFFF0F0F0),
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(Icons.error_outline, size: 16, color: Colors.grey),
+        );
+      },
     );
   }
 
@@ -213,7 +213,8 @@ class _BalanceSectionState extends State<BalanceSection> {
       final res = await AccountApi.getBalanceAccount(
         assetCurrency: await StorageService.getCurrency(),
       );
-
+      
+      print("balance res : $res");
       _balanceData = res;
     } catch (e) {
       setState(() => _errorMessage = e.toString());

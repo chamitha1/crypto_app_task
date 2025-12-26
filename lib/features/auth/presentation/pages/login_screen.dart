@@ -1,4 +1,5 @@
 import 'package:BitDo/config/api_client.dart';
+import 'package:BitDo/core/storage/storage_service.dart';
 import 'package:BitDo/features/auth/presentation/controllers/user_controller.dart';
 import 'package:BitDo/features/auth/presentation/pages/forgot_password_screen.dart';
 import 'package:BitDo/features/auth/presentation/pages/signup_screen.dart';
@@ -74,16 +75,27 @@ class _LoginScreenState extends State<LoginScreen> {
           'loginPwd': _passwordController.text,
         },
       );
+      final data = response.data as Map<String, dynamic>;
 
       // ignore: avoid_print
-      print('Login success: ${response.data}');
+      print('Login response: $data');
 
-      if (!mounted) return;
+      if (data['code'] == 200 || data['code'] == '200') {
+        final tokenData = data['data'] as Map<String, dynamic>;
+        final token =
+            tokenData['token'] as String? ??
+            ''; // Extract from data['data']['token']
 
-      // Inject dependency before navigation
-      Get.put(UserController());
+        await StorageService.saveToken(token);
+        print('Token saved: $token');
 
-      Get.offAll(() => const HomeScreen());
+        if (!mounted) return;
+
+        Get.put(UserController());
+        Get.offAll(() => const HomeScreen());
+      } else {
+        throw 'Login failed: ${data['errorMsg'] ?? 'Unknown'}';
+      }
     } catch (e) {
       // ignore: avoid_print
       print('Login error: $e');
@@ -282,7 +294,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 //     _socialButton('assets/images/login/cardgoal_logo.png'),
                 //   ],
                 // ),
-
                 const SizedBox(height: 20),
 
                 Center(

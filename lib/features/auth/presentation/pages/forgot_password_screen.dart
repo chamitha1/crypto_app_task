@@ -132,7 +132,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             context: context,
                             isScrollControlled: true,
                             backgroundColor: Colors.transparent,
-                            barrierColor: const Color(0xFFECEFF5).withOpacity(0.7),
+                            barrierColor: const Color(
+                              0xFFECEFF5,
+                            ).withOpacity(0.7),
                             builder: (context) => OtpBottomSheet(
                               email: _emailController.text.trim(),
                               otpLength: 6,
@@ -158,7 +160,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 Navigator.pop(context);
                                 setState(() => _isEmailVerified = true);
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Email Verified Successfully!")),
+                                  const SnackBar(
+                                    content: Text(
+                                      "Email Verified Successfully!",
+                                    ),
+                                  ),
                                 );
                               },
                             ),
@@ -467,8 +473,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         return matches.map((d) => '$local@$d');
       },
       onSelected: (String selection) {
-        _emailController?.text = selection;
-        _emailController?.selection = TextSelection.fromPosition(
+        _emailController.text = selection;
+        _emailController.selection = TextSelection.fromPosition(
           TextPosition(offset: selection.length),
         );
         setState(() {
